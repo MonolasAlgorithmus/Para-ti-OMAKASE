@@ -1,0 +1,228 @@
+/* =========================================================
+   OMAKASE — dedicatoria interactiva
+   Partículas que arman el símbolo ">|<" y luego dan paso
+   al "menú" del álbum.
+========================================================= */
+
+const introSection = document.getElementById('intro');
+const galaxyCanvas  = document.getElementById('galaxy');
+const gctx          = galaxyCanvas.getContext('2d');
+const menu           = document.getElementById('menu');
+
+let W, H, DPR;
+function resizeGalaxy(){
+  DPR = Math.min(window.devicePixelRatio || 1, 2);
+  W = galaxyCanvas.width  = window.innerWidth  * DPR;
+  H = galaxyCanvas.height = window.innerHeight * DPR;
+  galaxyCanvas.style.width  = window.innerWidth + 'px';
+  galaxyCanvas.style.height = window.innerHeight + 'px';
+}
+resizeGalaxy();
+window.addEventListener('resize', resizeGalaxy);
+
+/* ---------- 1. sample points from the ">|<" glyph ---------- */
+function sampleSymbolPoints(count){
+  const off = document.createElement('canvas');
+  off.width = window.innerWidth;
+  off.height = window.innerHeight;
+  const octx = off.getContext('2d');
+  octx.clearRect(0,0,off.width,off.height);
+
+  const fontSize = Math.min(off.width, off.height) * 0.4;
+  octx.fillStyle = '#fff';
+  octx.font = `900 ${fontSize}px Arial, sans-serif`;
+  octx.textAlign = 'center';
+  octx.textBaseline = 'middle';
+  // slightly condensed by scaling horizontally
+  octx.save();
+  octx.translate(off.width/2, off.height/2);
+  octx.scale(1, 1);
+  octx.fillText('>|<', 0, 0);
+  octx.restore();
+
+  const img = octx.getImageData(0,0,off.width,off.height).data;
+  const points = [];
+  const step = 3; // sampling density
+  for(let y=0; y<off.height; y+=step){
+    for(let x=0; x<off.width; x+=step){
+      const idx = (y*off.width + x) * 4 + 3;
+      if(img[idx] > 128){
+        points.push({ x: x*DPR, y: y*DPR });
+      }
+    }
+  }
+  // shuffle & trim/pad to count
+  for(let i=points.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [points[i],points[j]] = [points[j],points[i]];
+  }
+  const result = [];
+  for(let i=0;i<count;i++){
+    result.push(points[i % points.length]);
+  }
+  return result;
+}
+
+/* ---------- 2. particle system ---------- */
+const PARTICLE_COUNT = 900;
+let particles = [];
+let stars = [];
+let assembled = false;
+let startTime = null;
+
+function initParticles(){
+  const targets = sampleSymbolPoints(PARTICLE_COUNT);
+  particles = targets.map(t => {
+    const angle = Math.random() * Math.PI * 2;
+    const radius = Math.max(W,H) * (0.5 + Math.random()*0.6);
+    return {
+      x: W/2 + Math.cos(angle)*radius,
+      y: H/2 + Math.sin(angle)*radius,
+      tx: t.x,
+      ty: t.y,
+      size: (Math.random()*1.6 + 0.6) * DPR,
+      speed: 0.02 + Math.random()*0.03,
+      hue: Math.random() < 0.15 ? 'gold' : 'bone',
+      twinkle: Math.random()*Math.PI*2
+    };
+  });
+}
+
+function initStars(){
+  stars = [];
+  const count = Math.floor((W*H) / (9000 * DPR));
+  for(let i=0;i<count;i++){
+    stars.push({
+      x: Math.random()*W,
+      y: Math.random()*H,
+      size: Math.random()*1.4*DPR + 0.2,
+      twinkle: Math.random()*Math.PI*2,
+      speed: 0.01 + Math.random()*0.02
+    });
+  }
+}
+
+initParticles();
+initStars();
+
+function drawStars(t){
+  gctx.fillStyle = 'rgba(241,236,224,0.8)';
+  for(const s of stars){
+    const a = 0.25 + 0.5 * Math.abs(Math.sin(t*s.speed + s.twinkle));
+    gctx.globalAlpha = a;
+    gctx.beginPath();
+    gctx.arc(s.x, s.y, s.size, 0, Math.PI*2);
+    gctx.fill();
+  }
+  gctx.globalAlpha = 1;
+}
+
+function animateGalaxy(ts){
+  if(!startTime) startTime = ts;
+  const t = (ts - startTime) / 1000;
+
+  gctx.clearRect(0,0,W,H);
+  drawStars(t);
+
+  for(const p of particles){
+    p.x += (p.tx - p.x) * p.speed;
+    p.y += (p.ty - p.y) * p.speed;
+
+    const twinkleA = 0.6 + 0.4 * Math.sin(t*2 + p.twinkle);
+    gctx.beginPath();
+    gctx.fillStyle = p.hue === 'gold'
+      ? `rgba(201,162,75,${twinkleA})`
+      : `rgba(255,120,100,${twinkleA})`;
+    gctx.shadowBlur = 6 * DPR;
+    gctx.shadowColor = p.hue === 'gold' ? '#c9a24b' : '#ff5b48';
+    gctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+    gctx.fill();
+  }
+  gctx.shadowBlur = 0;
+
+  requestAnimationFrame(animateGalaxy);
+}
+requestAnimationFrame(animateGalaxy);
+
+/* ---------- 3. transition to menu ---------- */
+function openMenu(){
+  if(assembled) return;
+  assembled = true;
+  introSection.style.transition = 'opacity 0.9s ease, transform 0.9s ease';
+  introSection.style.opacity = '0';
+  introSection.style.transform = 'scale(1.05)';
+  setTimeout(()=>{
+    introSection.style.display = 'none';
+    menu.hidden = false;
+    document.body.style.overflowY = 'auto';
+    initBgSymbols();
+  }, 850);
+}
+
+introSection.addEventListener('click', (e)=>{
+  // avoid closing when editing the name field
+  if(e.target.id === 'nombre-editable') return;
+  openMenu();
+});
+
+// safety: don't trigger navigation while typing the name
+document.getElementById('nombre-editable').addEventListener('keydown', e=>{
+  if(e.key === 'Enter'){ e.preventDefault(); e.target.blur(); }
+});
+
+/* ---------- 4. floating symbols behind the menu ---------- */
+const bgCanvas = document.getElementById('bg-symbols');
+const bctx = bgCanvas.getContext('2d');
+let bW, bH, bDPR;
+let bgSymbols = [];
+
+function resizeBg(){
+  bDPR = Math.min(window.devicePixelRatio || 1, 2);
+  bW = bgCanvas.width  = window.innerWidth * bDPR;
+  bH = bgCanvas.height = document.documentElement.scrollHeight * bDPR;
+  bgCanvas.style.width  = window.innerWidth + 'px';
+  bgCanvas.style.height = document.documentElement.scrollHeight + 'px';
+}
+
+function initBgSymbols(){
+  resizeBg();
+  bgSymbols = [];
+  const count = 26;
+  for(let i=0;i<count;i++){
+    bgSymbols.push({
+      x: Math.random()*bW,
+      y: Math.random()*bH,
+      size: (Math.random()*14 + 8) * bDPR,
+      drift: Math.random()*0.3 + 0.05,
+      angle: Math.random()*Math.PI*2,
+      opacity: Math.random()*0.25 + 0.06
+    });
+  }
+  requestAnimationFrame(animateBg);
+}
+
+function animateBg(ts){
+  if(!menu.hidden){
+    bctx.clearRect(0,0,bW,bH);
+    bctx.font = `700 20px Arial`;
+    bctx.textAlign = 'center';
+    bctx.textBaseline = 'middle';
+    for(const s of bgSymbols){
+      s.y -= s.drift;
+      if(s.y < -40) s.y = bH + 40;
+      bctx.save();
+      bctx.translate(s.x, s.y);
+      bctx.font = `700 ${s.size}px Arial`;
+      bctx.fillStyle = `rgba(179,35,28,${s.opacity})`;
+      bctx.fillText('>|<', 0, 0);
+      bctx.restore();
+    }
+  }
+  requestAnimationFrame(animateBg);
+}
+
+window.addEventListener('resize', ()=>{ if(!menu.hidden) resizeBg(); });
+
+/* ---------- 5. cover image fallback handling ---------- */
+const coverImg = document.getElementById('cover-img');
+coverImg.addEventListener('error', ()=>{ coverImg.classList.add('broken'); coverImg.removeAttribute('src'); });

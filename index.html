@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OMAKASE — para ti</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ===== INTRO: GALAXIA + SÍMBOLO ===== -->
+  <section id="intro">
+    <canvas id="galaxy"></canvas>
+    <div id="intro-text">
+      <p class="eyebrow">un detalle para</p>
+      <h1 id="nombre-editable" contenteditable="true" spellcheck="false">[ISA]</h1>
+      <p class="tap-hint">toca la pantalla</p>
+    </div>
+  </section>
+
+  <!-- ===== MENÚ PRINCIPAL ===== -->
+  <main id="menu" hidden>
+
+    <!-- fondo con símbolos flotando, tipo constelación -->
+    <canvas id="bg-symbols"></canvas>
+
+    <header class="hero">
+      <p class="eyebrow">ÁLVARO DÍAZ</p>
+      <h1 class="logo-mark">&gt;|&lt;</h1>
+      <h2 class="album-title">OMAKASE</h2>
+      <p class="subtitle">16 platillos · una experiencia para vivir en orden</p>
+    </header>
+
+    <section class="cover-wrap">
+      <div class="cover-frame">
+        <img src="omakase-dedicatoria/assets/cover.jpg" alt="Portada de OMAKASE" id="cover-img">
+        <div class="cover-fallback">
+          <span>&gt;|&lt;</span>
+          <p>coloca aquí<br><code>assets/cover.jpg</code></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="dedicatoria">
+      <p id="mensaje-editable" contenteditable="true" spellcheck="false">
+        Sé lo mucho que te gusta este álbum, así que te preparé tu propia mesa
+        de omakase. Cada canción, en orden, como Álvaro quiso que se viviera.
+        Que lo disfrutes tanto como yo disfruto verte feliz con su música. ✧
+      </p>
+    </section>
+
+    <section class="menu-carta">
+      <p class="carta-titulo">— la carta —</p>
+
+      <div class="fase" data-fase="1">
+        <p class="fase-nombre">Forma Cruda</p>
+        <ol class="platos" start="1">
+          <li><span class="num">01</span><span class="track">SICHEF.</span></li>
+          <li><span class="num">02</span><span class="track">MDF.</span></li>
+          <li><span class="num">03</span><span class="track">SELEDA.</span></li>
+          <li><span class="num">04</span><span class="track">BIMEL.</span></li>
+        </ol>
+      </div>
+
+      <div class="fase" data-fase="2">
+        <p class="fase-nombre">Sazonar</p>
+        <ol class="platos" start="5">
+          <li><span class="num">05</span><span class="track">PIENSO EN TI.</span></li>
+          <li><span class="num">06</span><span class="track">PERDISTE EL EMMY.</span><span class="feat">ft. Tainy</span></li>
+          <li><span class="num">07</span><span class="track">TREINEL.</span><span class="feat">ft. Rubi</span></li>
+          <li><span class="num">08</span><span class="track">EN LA MISMA CIUDAD.</span><span class="feat">ft. Jesse Baez</span></li>
+        </ol>
+      </div>
+
+      <div class="fase" data-fase="3">
+        <p class="fase-nombre">Transformación por Fuego</p>
+        <ol class="platos" start="9">
+          <li><span class="num">09</span><span class="track">KILO.</span><span class="feat">ft. Akriila</span></li>
+          <li><span class="num">10</span><span class="track">BABYRECORDS.</span></li>
+          <li><span class="num">11</span><span class="track">SPACEXXX.</span></li>
+          <li><span class="num">12</span><span class="track">MALASNOTICIAS.</span><span class="feat">ft. LATIN MAFIA</span></li>
+        </ol>
+      </div>
+
+      <div class="fase" data-fase="4">
+        <p class="fase-nombre">Sentimiento</p>
+        <ol class="platos" start="13">
+          <li><span class="num">13</span><span class="track">INAROW62.</span></li>
+          <li><span class="num">14</span><span class="track">NO PODEMOS SER AMIGOS.</span></li>
+          <li><span class="num">15</span><span class="track">OVELNAIT.</span></li>
+          <li><span class="num">16</span><span class="track">LAULTIMACENA.</span></li>
+        </ol>
+      </div>
+
+      <p class="carta-nota">* agrupación de canciones por fases hecha a mano por mí, no es oficial del sello — solo para que se sienta a menú.</p>
+    </section>
+
+    <footer>
+      <p>&gt;|&lt; hecho con cariño, no con intenciones — solo porque te queria alegrar el día.</p>
+    </footer>
+
+  </main>
+
+<script src="script.js"></script>
+</body>
+</html>
