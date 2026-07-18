@@ -226,3 +226,45 @@ window.addEventListener('resize', ()=>{ if(!menu.hidden) resizeBg(); });
 /* ---------- 5. cover image fallback handling ---------- */
 const coverImg = document.getElementById('cover-img');
 coverImg.addEventListener('error', ()=>{ coverImg.classList.add('broken'); coverImg.removeAttribute('src'); });
+
+/* ---------- 6. previews por canción (reproductor oficial de Spotify) ---------- */
+document.querySelectorAll('.play-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const li = btn.closest('li');
+    const playerBox = li.querySelector('.player');
+    const trackId = li.dataset.track;
+
+    // cerrar cualquier otro reproductor abierto
+    document.querySelectorAll('.player.open').forEach(p=>{
+      if(p !== playerBox){
+        p.classList.remove('open');
+        p.innerHTML = '';
+      }
+    });
+    document.querySelectorAll('.play-btn.playing').forEach(b=>{
+      if(b !== btn) b.classList.remove('playing');
+    });
+
+    const isOpen = playerBox.classList.contains('open');
+    if(isOpen){
+      playerBox.classList.remove('open');
+      playerBox.innerHTML = '';
+      btn.classList.remove('playing');
+      btn.textContent = '▶';
+      return;
+    }
+
+    playerBox.innerHTML = '<p class="player-loading">cargando preview…</p>';
+    playerBox.classList.add('open');
+    btn.classList.add('playing');
+    btn.textContent = '❚❚';
+
+    const iframe = document.createElement('iframe');
+    iframe.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
+    // el iframe debe existir en el DOM ANTES de asignarle src, si no, el navegador
+    // nunca dispara la carga (y menos con loading="lazy" en un elemento suelto).
+    playerBox.innerHTML = '';
+    playerBox.appendChild(iframe);
+    iframe.src = `https://open.spotify.com/embed/track/${trackId}?utm_source=generator&theme=0`;
+  });
+});
