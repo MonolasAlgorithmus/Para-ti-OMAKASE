@@ -234,11 +234,14 @@ body{
 .platos{ list-style:none; }
 
 .platos li{
+  padding:9px 0;
+  border-bottom:1px dotted var(--line);
+}
+
+.platos .fila{
   display:flex;
   align-items:baseline;
   gap:14px;
-  padding:9px 0;
-  border-bottom:1px dotted var(--line);
   font-size:1.15rem;
 }
 
@@ -257,6 +260,53 @@ body{
   color:var(--gold);
   text-transform:none;
   white-space:nowrap;
+}
+
+.play-btn{
+  align-self:center;
+  width:30px;
+  height:30px;
+  min-width:30px;
+  border-radius:50%;
+  border:1px solid var(--line);
+  background:transparent;
+  color:var(--blood-lt);
+  font-size:11px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:background .2s, border-color .2s, transform .15s;
+}
+.play-btn:hover{ border-color:var(--blood-lt); transform:scale(1.06); }
+.play-btn.playing{
+  background:var(--blood);
+  border-color:var(--blood);
+  color:var(--bone);
+}
+
+.player{
+  max-height:0;
+  overflow:hidden;
+  transition:max-height .35s ease, margin-top .35s ease;
+}
+.player.open{
+  max-height:100px;
+  margin-top:10px;
+}
+.player iframe{
+  width:100%;
+  height:80px;
+  border:none;
+  border-radius:8px;
+  display:block;
+}
+.player-loading{
+  font-family:'Space Mono', monospace;
+  font-size:10px;
+  color:rgba(241,236,224,0.4);
+  padding:8px 0;
+  text-align:center;
 }
 
 .carta-nota{
