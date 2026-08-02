@@ -145,8 +145,9 @@ function animateGalaxy(ts){
 requestAnimationFrame(animateGalaxy);
 
 /* ---------- 3. transition to menu ---------- */
-const divisor = document.querySelector('.divisor');
+const albumNav = document.getElementById('album-nav');
 const sayonaraMenu = document.getElementById('sayonara-menu');
+let sayonaraInitialized = false;
 
 function openMenu(){
   if(assembled) return;
@@ -156,13 +157,11 @@ function openMenu(){
   introSection.style.transform = 'scale(1.05)';
   setTimeout(()=>{
     introSection.style.display = 'none';
+    albumNav.hidden = false;
     menu.hidden = false;
-    divisor.hidden = false;
-    sayonaraMenu.hidden = false;
+    // sayonaraMenu se queda oculto hasta que la persona toque "Ver SAYONARA"
     document.body.style.overflowY = 'auto';
     initBgSymbols();
-    initBgSymbolsSayonara();
-    initSayonaraSymbol();
   }, 850);
 }
 
@@ -170,6 +169,38 @@ introSection.addEventListener('click', (e)=>{
   // avoid closing when editing the name field
   if(e.target.id === 'nombre-editable') return;
   openMenu();
+});
+
+/* ---------- 3b. alternar entre OMAKASE y SAYONARA ---------- */
+const navButtons = document.querySelectorAll('.nav-btn');
+
+function activateTab(target){
+  navButtons.forEach(b=>{
+    const isActive = b.dataset.target === target;
+    b.classList.toggle('active', isActive);
+  });
+  document.querySelector('.nav-btn[data-target="menu"]').textContent =
+    target === 'menu' ? 'OMAKASE' : '← OMAKASE';
+  document.querySelector('.nav-btn[data-target="sayonara-menu"]').textContent =
+    target === 'sayonara-menu' ? 'SAYONARA' : 'Ver SAYONARA →';
+
+  menu.hidden = target !== 'menu';
+  sayonaraMenu.hidden = target !== 'sayonara-menu';
+  window.scrollTo({ top: 0, behavior: 'auto' });
+
+  if(target === 'sayonara-menu' && !sayonaraInitialized){
+    initBgSymbolsSayonara();
+    initSayonaraSymbol();
+    sayonaraInitialized = true;
+  } else if(target === 'sayonara-menu'){
+    resizeBgSayonara();
+  } else {
+    resizeBg();
+  }
+}
+
+navButtons.forEach(btn=>{
+  btn.addEventListener('click', ()=> activateTab(btn.dataset.target));
 });
 
 // safety: don't trigger navigation while typing the name
