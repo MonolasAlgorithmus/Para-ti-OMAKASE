@@ -145,6 +145,9 @@ function animateGalaxy(ts){
 requestAnimationFrame(animateGalaxy);
 
 /* ---------- 3. transition to menu ---------- */
+const divisor = document.querySelector('.divisor');
+const sayonaraMenu = document.getElementById('sayonara-menu');
+
 function openMenu(){
   if(assembled) return;
   assembled = true;
@@ -154,8 +157,12 @@ function openMenu(){
   setTimeout(()=>{
     introSection.style.display = 'none';
     menu.hidden = false;
+    divisor.hidden = false;
+    sayonaraMenu.hidden = false;
     document.body.style.overflowY = 'auto';
     initBgSymbols();
+    initBgSymbolsSayonara();
+    initSayonaraSymbol();
   }, 850);
 }
 
@@ -204,15 +211,14 @@ function initBgSymbols(){
 function animateBg(ts){
   if(!menu.hidden){
     bctx.clearRect(0,0,bW,bH);
-    bctx.font = `700 20px Arial`;
-    bctx.textAlign = 'center';
-    bctx.textBaseline = 'middle';
     for(const s of bgSymbols){
       s.y -= s.drift;
       if(s.y < -40) s.y = bH + 40;
       bctx.save();
       bctx.translate(s.x, s.y);
       bctx.font = `700 ${s.size}px Arial`;
+      bctx.textAlign = 'center';
+      bctx.textBaseline = 'middle';
       bctx.fillStyle = `rgba(179,35,28,${s.opacity})`;
       bctx.fillText('>|<', 0, 0);
       bctx.restore();
@@ -221,11 +227,137 @@ function animateBg(ts){
   requestAnimationFrame(animateBg);
 }
 
-window.addEventListener('resize', ()=>{ if(!menu.hidden) resizeBg(); });
+window.addEventListener('resize', ()=>{
+  if(!menu.hidden) resizeBg();
+  if(!sayonaraMenu.hidden) resizeBgSayonara();
+});
+
+/* ---------- 4b. fondo flotante de flores para Sayonara (mismo patrón, en azul) ---------- */
+const bgCanvasSayonara = document.getElementById('bg-symbols-sayonara');
+const bctxSayonara = bgCanvasSayonara.getContext('2d');
+let bWs, bHs, bDPRs;
+let bgFlowers = [];
+
+function resizeBgSayonara(){
+  bDPRs = Math.min(window.devicePixelRatio || 1, 2);
+  bWs = bgCanvasSayonara.width  = window.innerWidth * bDPRs;
+  bHs = bgCanvasSayonara.height = sayonaraMenu.scrollHeight * bDPRs;
+  bgCanvasSayonara.style.width  = window.innerWidth + 'px';
+  bgCanvasSayonara.style.height = sayonaraMenu.scrollHeight + 'px';
+}
+
+function initBgSymbolsSayonara(){
+  resizeBgSayonara();
+  bgFlowers = [];
+  const count = 22;
+  for(let i=0;i<count;i++){
+    bgFlowers.push({
+      x: Math.random()*bWs,
+      y: Math.random()*bHs,
+      size: (Math.random()*13 + 8) * bDPRs,
+      drift: Math.random()*0.3 + 0.05,
+      opacity: Math.random()*0.28 + 0.08
+    });
+  }
+  requestAnimationFrame(animateBgSayonara);
+}
+
+function animateBgSayonara(ts){
+  if(!sayonaraMenu.hidden){
+    bctxSayonara.clearRect(0,0,bWs,bHs);
+    for(const s of bgFlowers){
+      s.y -= s.drift;
+      if(s.y < -40) s.y = bHs + 40;
+      bctxSayonara.save();
+      bctxSayonara.translate(s.x, s.y);
+      bctxSayonara.font = `700 ${s.size}px Arial`;
+      bctxSayonara.textAlign = 'center';
+      bctxSayonara.textBaseline = 'middle';
+      bctxSayonara.fillStyle = `rgba(43,75,255,${s.opacity})`;
+      bctxSayonara.fillText('✿', 0, 0);
+      bctxSayonara.restore();
+    }
+  }
+  requestAnimationFrame(animateBgSayonara);
+}
+
+/* ---------- 4c. la flor de Sayonara armándose con partículas ---------- */
+function initSayonaraSymbol(){
+  const canvas = document.getElementById('sayonara-symbol');
+  const ctx = canvas.getContext('2d');
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const size = 260;
+  canvas.width = size * dpr;
+  canvas.height = size * dpr;
+
+  // muestrear puntos de la flor "✿" en un canvas auxiliar
+  const off = document.createElement('canvas');
+  off.width = size; off.height = size;
+  const octx = off.getContext('2d');
+  octx.fillStyle = '#fff';
+  octx.font = `${size*0.78}px Arial`;
+  octx.textAlign = 'center';
+  octx.textBaseline = 'middle';
+  octx.fillText('✿', size/2, size/2 + size*0.03);
+  const img = octx.getImageData(0,0,size,size).data;
+
+  const targets = [];
+  const step = 3;
+  for(let y=0; y<size; y+=step){
+    for(let x=0; x<size; x+=step){
+      const idx = (y*size + x) * 4 + 3;
+      if(img[idx] > 128) targets.push({ x: x*dpr, y: y*dpr });
+    }
+  }
+  for(let i=targets.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [targets[i],targets[j]] = [targets[j],targets[i]];
+  }
+
+  const count = Math.min(500, targets.length);
+  const flowerParticles = [];
+  for(let i=0;i<count;i++){
+    const t = targets[i];
+    const angle = Math.random() * Math.PI * 2;
+    const radius = size * dpr * (0.7 + Math.random()*0.5);
+    flowerParticles.push({
+      x: (size*dpr)/2 + Math.cos(angle)*radius,
+      y: (size*dpr)/2 + Math.sin(angle)*radius,
+      tx: t.x, ty: t.y,
+      sz: (Math.random()*1.5 + 0.6) * dpr,
+      speed: 0.02 + Math.random()*0.03,
+      twinkle: Math.random()*Math.PI*2
+    });
+  }
+
+  let start = null;
+  function frame(ts){
+    if(!start) start = ts;
+    const t = (ts - start) / 1000;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    for(const p of flowerParticles){
+      p.x += (p.tx - p.x) * p.speed;
+      p.y += (p.ty - p.y) * p.speed;
+      const a = 0.6 + 0.4 * Math.sin(t*2 + p.twinkle);
+      ctx.beginPath();
+      ctx.fillStyle = `rgba(111,143,255,${a})`;
+      ctx.shadowBlur = 6 * dpr;
+      ctx.shadowColor = '#2b4bff';
+      ctx.arc(p.x, p.y, p.sz, 0, Math.PI*2);
+      ctx.fill();
+    }
+    ctx.shadowBlur = 0;
+    if(!sayonaraMenu.hidden) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
 
 /* ---------- 5. cover image fallback handling ---------- */
 const coverImg = document.getElementById('cover-img');
 coverImg.addEventListener('error', ()=>{ coverImg.classList.add('broken'); coverImg.removeAttribute('src'); });
+
+const coverImgSayonara = document.getElementById('cover-img-sayonara');
+coverImgSayonara.addEventListener('error', ()=>{ coverImgSayonara.classList.add('broken'); coverImgSayonara.removeAttribute('src'); });
 
 /* ---------- 6. previews por canción (reproductor oficial de Spotify) ---------- */
 document.querySelectorAll('.play-btn').forEach(btn=>{
