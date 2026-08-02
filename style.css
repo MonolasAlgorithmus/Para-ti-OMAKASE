@@ -7,6 +7,11 @@
   --blood-lt: #ff5b48;
   --gold:     #c9a24b;
   --line:     rgba(241,236,224,0.14);
+
+  /* paleta Sayonara — LED azul neón */
+  --neon:     #2b4bff;
+  --neon-lt:  #6f8fff;
+  --ink-blue: #05060f;
 }
 
 *{ box-sizing:border-box; margin:0; padding:0; }
@@ -162,6 +167,16 @@ body{
 #cover-img:not([src]),
 #cover-img[src=""]{ display:none; }
 
+#cover-img-sayonara{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+#cover-img-sayonara:not([src]),
+#cover-img-sayonara[src=""]{ display:none; }
+
 .cover-fallback{
   position:absolute;
   inset:0;
@@ -188,6 +203,7 @@ body{
 
 /* if the real image loaded, hide fallback */
 #cover-img:not(.broken) + .cover-fallback{ display:none; }
+#cover-img-sayonara:not(.broken) + .cover-fallback{ display:none; }
 
 .dedicatoria{
   text-align:center;
@@ -331,4 +347,88 @@ footer{
 @media (max-width:480px){
   .platos li{ font-size:1rem; }
   .platos .feat{ display:block; margin-top:2px; }
+}
+
+/* ============ DIVISOR ENTRE ÁLBUMES ============ */
+.divisor{
+  text-align:center;
+  padding:20px 0;
+  color:rgba(241,236,224,0.25);
+  letter-spacing:0.4em;
+  font-family:'Space Mono', monospace;
+  font-size:14px;
+  background:var(--ink);
+}
+
+/* ============ SAYONARA (paleta azul) ============ */
+#sayonara-menu{
+  position:relative;
+  min-height:100vh;
+  padding:70px 20px 60px;
+  max-width:720px;
+  margin:0 auto;
+  background:var(--ink-blue);
+}
+
+#bg-symbols-sayonara{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  z-index:0;
+  opacity:0.55;
+  pointer-events:none;
+}
+
+#sayonara-menu > *{ position:relative; z-index:1; }
+
+.eyebrow-blue{ color:var(--neon-lt); }
+
+#sayonara-symbol{
+  display:block;
+  margin:8px auto 0;
+  max-width:220px;
+  height:auto;
+}
+
+.album-title-blue{
+  color:var(--bone);
+  text-shadow:0 0 24px rgba(43,75,255,0.6);
+}
+
+.cover-frame-blue{
+  border-color:rgba(111,143,255,0.25);
+  box-shadow:0 30px 80px rgba(5,6,25,0.7);
+}
+
+.cover-fallback-blue{ background:#0b0d1f; }
+.cover-fallback .fallback-flower{
+  font-size:3.4rem;
+  color:var(--neon-lt);
+  text-shadow:0 0 20px rgba(111,143,255,0.7);
+}
+
+.dedicatoria-blue{
+  border-top-color:rgba(111,143,255,0.18);
+  border-bottom-color:rgba(111,143,255,0.18);
+}
+
+.carta-titulo-blue{ color:var(--neon-lt); }
+
+.fase-nombre-blue{
+  color:var(--neon-lt);
+  border-bottom-color:rgba(111,143,255,0.18);
+}
+
+.feat-blue{ color:var(--neon-lt); }
+
+.play-btn-blue{
+  color:var(--neon-lt);
+  border-color:rgba(111,143,255,0.25);
+}
+.play-btn-blue:hover{ border-color:var(--neon-lt); }
+.play-btn-blue.playing{
+  background:var(--neon);
+  border-color:var(--neon);
+  color:var(--bone);
 }
