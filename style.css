@@ -409,20 +409,14 @@ footer{
 }
 
 #bg-symbols-sayonara{
-  position:absolute;
+  position:fixed;
   inset:0;
   width:100%;
   height:100%;
-  z-index:0;
+  z-index:-1;
   opacity:0.55;
   pointer-events:none;
 }
-
-/* excluye el canvas de fondo: si no, la regla de abajo le pisaba el
-   position:absolute (misma especificidad, ganaba por venir después)
-   y el canvas pasaba a ocupar espacio real en el flujo del documento —
-   esa era la causa del hueco enorme arriba de todo. */
-#sayonara-menu > *:not(#bg-symbols-sayonara){ position:relative; z-index:1; }
 
 .eyebrow-blue{ color:var(--neon-lt); }
 
