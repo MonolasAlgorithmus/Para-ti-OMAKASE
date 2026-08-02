@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OMAKASE — para ti</title>
+<title>OMAKASE + SAYONARA — para ti</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,7 +13,7 @@
     <canvas id="galaxy"></canvas>
     <div id="intro-text">
       <p class="eyebrow">un detalle para</p>
-      <h1 id="nombre-editable" contenteditable="true" spellcheck="false">[ISAA]</h1>
+      <h1 id="nombre-editable" contenteditable="true" spellcheck="false">[SU NOMBRE]</h1>
       <p class="tap-hint">toca la pantalla</p>
     </div>
   </section>
@@ -33,7 +33,7 @@
 
     <section class="cover-wrap">
       <div class="cover-frame">
-        <img src="https://github.com/SportAlgorithmus/Para-ti-OMAKASE/blob/main/OMAKASE%20-%20ALVARO%20DIAZ.jpg?raw=true" alt="Portada de OMAKASE" id="cover-img">
+        <img src="assets/cover.jpg" alt="Portada de OMAKASE" id="cover-img">
         <div class="cover-fallback">
           <span>&gt;|&lt;</span>
           <p>coloca aquí<br><code>assets/cover.jpg</code></p>
@@ -43,9 +43,9 @@
 
     <section class="dedicatoria">
       <p id="mensaje-editable" contenteditable="true" spellcheck="false">
-        Sé lo mucho que te gusta este álbum, así que te preparé esto
-        apenas se me ocurrio. Cada canción, en orden, 
-        como Álvarito quiso que se viviera.Espero que te guste. 😛 ✧
+        Sé lo mucho que te gusta este álbum, así que te preparé tu propia mesa
+        de omakase. Cada canción, en orden, como Álvaro quiso que se viviera.
+        Que lo disfrutes tanto como yo disfruto verte feliz con su música. ✧
       </p>
     </section>
 
@@ -92,11 +92,109 @@
         </ol>
       </div>
 
-      <p class="carta-nota">* agrupación de canciones por fases hecha por mí, — solo para que se sienta a menú.</p>
+      <p class="carta-nota">* agrupación de canciones por fases hecha a mano por mí, no es oficial del sello — solo para que se sienta a menú.<br>* el audio lo sirve el reproductor oficial de Spotify (preview de cada tema).</p>
     </section>
 
     <footer>
-      <p>&gt;|&lt; hecho con cariño — solo porque te queria alegrar el día.</p>
+      <p>&gt;|&lt; hecho con cariño, no con intenciones — solo porque te queria alegrar el día.</p>
+    </footer>
+
+  </main>
+
+  <!-- ===== DIVISOR ENTRE ÁLBUMES ===== -->
+  <div class="divisor" hidden>
+    <span>· · ·</span>
+  </div>
+
+  <!-- ===== SAYONARA ===== -->
+  <main id="sayonara-menu" hidden>
+
+    <!-- fondo con flores flotando, tipo constelación -->
+    <canvas id="bg-symbols-sayonara"></canvas>
+
+    <header class="hero">
+      <p class="eyebrow eyebrow-blue">ÁLVARO DÍAZ</p>
+      <canvas id="sayonara-symbol" width="260" height="260"></canvas>
+      <h2 class="album-title album-title-blue">SAYONARA</h2>
+      <p class="subtitle">20 canciones · la historia completa de una despedida</p>
+    </header>
+
+    <section class="cover-wrap">
+      <div class="cover-frame cover-frame-blue">
+        <img src="assets/cover-sayonara.jpg" alt="Portada de SAYONARA" id="cover-img-sayonara">
+        <div class="cover-fallback cover-fallback-blue">
+          <span class="fallback-flower">✿</span>
+          <p>coloca aquí<br><code>assets/cover-sayonara.jpg</code></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="dedicatoria dedicatoria-blue">
+      <p id="mensaje-editable-sayonara" contenteditable="true" spellcheck="false">
+        Este es el otro lado de Álvaro: el del adiós. Un álbum que se escucha
+        de principio a fin como una historia, así que te lo dejo completo,
+        capítulo por capítulo, para que lo vivas igual que él lo pensó. ✿
+      </p>
+    </section>
+
+    <section class="menu-carta">
+      <p class="carta-titulo carta-titulo-blue">— la historia —</p>
+
+      <div class="fase fase-blue" data-fase="1">
+        <p class="fase-nombre fase-nombre-blue">El Despertar</p>
+        <ol class="platos" start="1">
+          <li data-track="3vfq1ovR6oBGJPvoy4Oy1B"><div class="fila"><span class="num">01</span><span class="track">TE VI EN MIS PESADILLAS.</span><button class="play-btn play-btn-blue" aria-label="Escuchar TE VI EN MIS PESADILLAS">▶</button></div><div class="player"></div></li>
+          <li data-track="2f12t9azZ2tzbajdJt64nD"><div class="fila"><span class="num">02</span><span class="track">KAWA.</span><button class="play-btn play-btn-blue" aria-label="Escuchar KAWA">▶</button></div><div class="player"></div></li>
+          <li data-track="6BpZpCM8d8FJnVnr1IbnFL"><div class="fila"><span class="num">03</span><span class="track">GATITAS SANDUNGUERAS - VOL.1.</span><span class="feat feat-blue">ft. Feid</span><button class="play-btn play-btn-blue" aria-label="Escuchar GATITAS SANDUNGUERAS">▶</button></div><div class="player"></div></li>
+          <li data-track="3T3kxmb4QWwrnzoa3eOakp"><div class="fila"><span class="num">04</span><span class="track">PLN.</span><button class="play-btn play-btn-blue" aria-label="Escuchar PLN">▶</button></div><div class="player"></div></li>
+        </ol>
+      </div>
+
+      <div class="fase fase-blue" data-fase="2">
+        <p class="fase-nombre fase-nombre-blue">La Fantasía</p>
+        <ol class="platos" start="5">
+          <li data-track="2OG4ot6I8MyN1YLAUXdmBo"><div class="fila"><span class="num">05</span><span class="track">FATAL FANTASSY.</span><span class="feat feat-blue">ft. Tainy</span><button class="play-btn play-btn-blue" aria-label="Escuchar FATAL FANTASSY">▶</button></div><div class="player"></div></li>
+          <li data-track="5cqeTJhPAfHU4ROwcgG5L4"><div class="fila"><span class="num">06</span><span class="track">LENTITO.</span><button class="play-btn play-btn-blue" aria-label="Escuchar LENTITO">▶</button></div><div class="player"></div></li>
+          <li data-track="4TUu0QxrNe0Mz6RMVoMda1"><div class="fila"><span class="num">07</span><span class="track">1000CANCIONES.</span><span class="feat feat-blue">ft. Sen Senra</span><button class="play-btn play-btn-blue" aria-label="Escuchar 1000CANCIONES">▶</button></div><div class="player"></div></li>
+          <li data-track="6zMWAKMDVH1uHHDOrm2RdL"><div class="fila"><span class="num">08</span><span class="track">BYAK.</span><span class="feat feat-blue">ft. Rauw Alejandro</span><button class="play-btn play-btn-blue" aria-label="Escuchar BYAK">▶</button></div><div class="player"></div></li>
+        </ol>
+      </div>
+
+      <div class="fase fase-blue" data-fase="3">
+        <p class="fase-nombre fase-nombre-blue">El Vértigo</p>
+        <ol class="platos" start="9">
+          <li data-track="7keTeNuCO2ghzRRW7CVzsJ"><div class="fila"><span class="num">09</span><span class="track">SIN PODERES.</span><span class="feat feat-blue">ft. Young Cister</span><button class="play-btn play-btn-blue" aria-label="Escuchar SIN PODERES">▶</button></div><div class="player"></div></li>
+          <li data-track="62n1ZpeGX7aM7hqC4NcBsJ"><div class="fila"><span class="num">10</span><span class="track">MAMI 100PRE SABE (INTERLUDE).</span><span class="feat feat-blue">ft. Nsqk</span><button class="play-btn play-btn-blue" aria-label="Escuchar MAMI 100PRE SABE">▶</button></div><div class="player"></div></li>
+          <li data-track="5p5uABIXqSPdQ1vMz4bwAu"><div class="fila"><span class="num">11</span><span class="track">EN PR NO HACE FRÍO.</span><span class="feat feat-blue">ft. paopao</span><button class="play-btn play-btn-blue" aria-label="Escuchar EN PR NO HACE FRÍO">▶</button></div><div class="player"></div></li>
+          <li data-track="539iCq2nwEJqYZ734hssyI"><div class="fila"><span class="num">12</span><span class="track">A MI NOMBRE.</span><span class="feat feat-blue">ft. Mora</span><button class="play-btn play-btn-blue" aria-label="Escuchar A MI NOMBRE">▶</button></div><div class="player"></div></li>
+        </ol>
+      </div>
+
+      <div class="fase fase-blue" data-fase="4">
+        <p class="fase-nombre fase-nombre-blue">La Vulnerabilidad</p>
+        <ol class="platos" start="13">
+          <li data-track="0TaouwmpWakN1nTULu0aAK"><div class="fila"><span class="num">13</span><span class="track">QUIÉN TE QUIERE COMO EL NENE.</span><button class="play-btn play-btn-blue" aria-label="Escuchar QUIÉN TE QUIERE COMO EL NENE">▶</button></div><div class="player"></div></li>
+          <li data-track="6FJV85KORYOWb7czKCNFBk"><div class="fila"><span class="num">14</span><span class="track">MAJIN BUU.</span><button class="play-btn play-btn-blue" aria-label="Escuchar MAJIN BUU">▶</button></div><div class="player"></div></li>
+          <li data-track="5JHB8QusYhTWdRw2KJekj6"><div class="fila"><span class="num">15</span><span class="track">YOKO.</span><button class="play-btn play-btn-blue" aria-label="Escuchar YOKO">▶</button></div><div class="player"></div></li>
+          <li data-track="7zJu3gmfC46vRoCQ8MZSIY"><div class="fila"><span class="num">16</span><span class="track">QUIZÁS SI QUIZÁS NO.</span><span class="feat feat-blue">ft. Quevedo</span><button class="play-btn play-btn-blue" aria-label="Escuchar QUIZÁS SI QUIZÁS NO">▶</button></div><div class="player"></div></li>
+        </ol>
+      </div>
+
+      <div class="fase fase-blue" data-fase="5">
+        <p class="fase-nombre fase-nombre-blue">El Adiós</p>
+        <ol class="platos" start="17">
+          <li data-track="6cOjQjg8GRhLozpoyiqvfp"><div class="fila"><span class="num">17</span><span class="track">RAMONA FLOWERS.</span><button class="play-btn play-btn-blue" aria-label="Escuchar RAMONA FLOWERS">▶</button></div><div class="player"></div></li>
+          <li data-track="2mjTbUVSX6HERcei3ovKpl"><div class="fila"><span class="num">18</span><span class="track">FUNERAL.</span><span class="feat feat-blue">ft. Aron</span><button class="play-btn play-btn-blue" aria-label="Escuchar FUNERAL">▶</button></div><div class="player"></div></li>
+          <li data-track="4DrxWZtOT8g8RZuESdzx2q"><div class="fila"><span class="num">19</span><span class="track">GOLDEN GUN.</span><button class="play-btn play-btn-blue" aria-label="Escuchar GOLDEN GUN">▶</button></div><div class="player"></div></li>
+          <li data-track="0PAwMP4DjWqqZJlZkxCsFr"><div class="fila"><span class="num">20</span><span class="track">NO LLORES SI ME VOY.</span><button class="play-btn play-btn-blue" aria-label="Escuchar NO LLORES SI ME VOY">▶</button></div><div class="player"></div></li>
+        </ol>
+      </div>
+
+      <p class="carta-nota">* la división en capítulos la hice yo, siguiendo el hilo de la ruptura que el propio Álvaro cuenta en el álbum — no es una estructura oficial anunciada por el sello.<br>* el audio lo sirve el reproductor oficial de Spotify (preview de cada tema).</p>
+    </section>
+
+    <footer>
+      <p>✿ para quien todavía sabe decir adiós con estilo.</p>
     </footer>
 
   </main>
